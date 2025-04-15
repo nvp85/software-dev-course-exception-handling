@@ -41,6 +41,7 @@ Your job is to fix it!
 // ============================================
 // 🐞 Initial Code with Bugs (to be debugged)
 // ============================================
+const prompt = require('readline-sync').question; // define the prompt function
 
 let animals = [];
 let fees = [];
@@ -69,7 +70,7 @@ console.log("Welcome to the Pet Shelter System");
 
 while (true) {
     try {
-        let action = prompt("Choose an action: 'add', 'fee', or 'exit': ").toLowerCase();
+        let action = prompt("Choose an action: 'add', 'fee', or 'exit': ").toLowerCase(); // the function prompt was not defined; fix: line #44
 
         if (action === "exit") {
             console.log("Goodbye!");
@@ -77,8 +78,19 @@ while (true) {
         }
 
         if (action === "add") {
-            let animal = prompt("Enter the animal's name: ");
-            let fee = Number(prompt("Enter the adoption fee: "));
+            let animal = prompt("Enter the animal's name: "); // it is better to check that the name is not blank than throw an error
+            // validate the input
+            while (animal.length == 0) {
+                console.log("Anumal's name must not be blank. Please try again.");
+                animal = prompt("Enter the animal's name: ");
+            }
+
+            let fee = Number(prompt("Enter the adoption fee: ")); // what if it's not a number?
+            // validate the input
+            while (isNaN(fee)) {
+                console.log("Please enter a valid fee.") // ask to enter a number 
+                fee = Number(prompt("Enter the adoption fee: "));
+            } 
 
             try {
                 addAnimal(animal, fee);
